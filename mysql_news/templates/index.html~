@@ -1,0 +1,3 @@
+{% for title in titlelist %}
+<li><a href='{{ url_for('title',file_id=file.id) }}'>{{ title.title }}</li>
+{% endfor %}
