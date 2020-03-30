@@ -20,7 +20,7 @@ class File(db.Model):
     category = db.relationship('Category',uselist=False)
     content = db.Column(db.Text)
 
-    def __repr__(self,title,created_time,category,content):
+    def __init__(self,title,created_time,category,content):
         self.title = title
         self.created_time = created_time
         self.category = category
@@ -33,20 +33,21 @@ class Category(db.Model):
     name = db.Column(db.String(80))
     files = db.relationship('File')
 
-    def __repr__(self,name):
+    def __init__(self,name):
         self.name = name
         
+db.create_all()
 
-def create_all():
-    java = Category('Java')
-    python = Category('Python')
-    file1 = File('Hello Java',datetime.utcnow(),java,'File Content - Java is cool!')
-    file2 = File('Hello Python',datetime.utcnow(),python,'File Content - Python is cool!')
-    db.session.add(java)
-    db.session.add(python)
-    db.session.add(file1)
-    db.session.add(file2)
-    db.session.commit()
+
+java = Category('Java')
+python = Category('Python')
+file1 = File('Hello Java',datetime.utcnow(),java,'File Content - Java is cool!')
+file2 = File('Hello Python',datetime.utcnow(),python,'File Content - Python is cool!')
+db.session.add(java)
+db.session.add(python)
+db.session.add(file1)
+db.session.add(file2)
+db.session.commit()
 
 @app.route('/')
 def index():
