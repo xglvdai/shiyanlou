@@ -29,13 +29,20 @@ class File(db.Model):
         self.content = content
 
     def add_tag(self,tag_name):
+        #查找一个标签项目
         tag = tags.find_one({'title':self.title})
+        #如果库中没有tag这个标签项目
         if not tag:
+            #向项目中插入一条，tag_name为列表形式
             tags.insert_one({'title':self.title,'value':[tag_name]})
         else:
+            #如果有标签，设置一个变量value为标签里面的标签值
             value = tag['value']
+            #如果插入的tag不在标签值里面
             if not tag_name in value:
+                #列表追加这个插入项
                 value.append(tag_name)
+            #更新这个tags 
             tags.update_one({'title':self.title},{'$set':{'value':value}})
 
     def remove_tag(self,tag_name):
